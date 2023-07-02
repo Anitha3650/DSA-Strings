@@ -1,0 +1,76 @@
+You have given a string , You have to add characters at start of string to make it a palindrome .
+return the minimum number of characters required to add to make it a palindrome.
+
+Example 1:
+Input:
+str = "abcd"
+Output: 3
+Explanation: Inserted character marked with bold characters in dcbabcd
+
+Example 2:
+Input:
+str = "aa"
+Output: 0
+Explanation:"aa" is already a palindrome.
+
+Constraints:
+1 ≤ |str| ≤ 10^3
+str contains only lower case alphabets.
+====================================================================================
+import java.util.*;
+
+
+//========== User's Code Starts Here ==========
+
+class Solution {
+    public int minimum_count(String s) {
+        
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+        String rev = sb.toString();
+        int n = s.length();
+        int[][] dp = new int[n+1][n+1];
+        for(int i=1;i<=n;i++) {
+            for(int j=1;j<=n;j++) {
+                int val = -1;
+                if(s.charAt(i-1) == rev.charAt(j-1)) {
+                    val = 1 + dp[i-1][j-1];
+                }
+                else {
+                    val =  Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+                dp[i][j] = val;
+            }
+        }
+        int lcsCount = dp[n][n];
+       
+        int minInsertion = n - lcsCount; 
+        return minInsertion;
+    }
+}
+
+//========== User's Code Ends Here ==========
+
+
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(val);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
+public class Main
+{
+   
+   
+     public static void main(String[]args)
+    {
+        Scanner sc=new Scanner(System.in);
+        String n=sc.nextLine();
+        Solution s =new Solution();
+        int max= s.minimum_count(n);
+        System.out.println(max);
+    }
+}
